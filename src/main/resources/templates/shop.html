@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Shopping | LuxeBoutique</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts: light + modern -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== LIGHT & ATTRACTIVE DESIGN TOKENS ========== */
+    :root {
+      --lavender-mist: #f3eefc;
+      --lavender-soft: #e6dcf7;
+      --lilac: #b39ddb;
+      --violet-deep: #7c4dff;
+      --violet-vibrant: #9c6eff;
+      --peach-soft: #ffe8e0;
+      --peach-warm: #ffb4a2;
+      --coral: #ff7b6b;
+      --mint-mist: #e3f7f2;
+      --mint: #6bd6c0;
+      --teal-deep: #0fa890;
+      --sky-mist: #e8f4fd;
+      --sky: #5aa9e6;
+      --cream: #fffdfa;
+      --white: #ffffff;
+      --charcoal: #2d2640;
+      --gray-soft: #8b8399;
+
+      --gradient-hero: linear-gradient(135deg, #f3eefc 0%, #e8f4fd 50%, #ffe8e0 100%);
+      --gradient-btn: linear-gradient(135deg, #9c6eff 0%, #ff7b6b 100%);
+      --gradient-btn-hover: linear-gradient(135deg, #7c4dff 0%, #ff5c47 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffb347 100%);
+      --shadow-soft: 0 20px 50px -12px rgba(124, 77, 255, 0.15);
+      --shadow-card: 0 30px 70px -20px rgba(124, 77, 255, 0.22);
+      --shadow-input: 0 2px 10px rgba(124, 77, 255, 0.06);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-pill: 50px;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* ========== BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--gradient-hero);
+      color: var(--charcoal);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ========== DECORATIVE BACKGROUND BLOBS ========== */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatBlob 12s ease-in-out infinite;
+    }
+
+    body::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #b39ddb 0%, transparent 70%);
+      top: -180px;
+      right: -120px;
+    }
+
+    body::after {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, #ffb4a2 0%, transparent 70%);
+      bottom: -160px;
+      left: -100px;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatBlob {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.08); }
+    }
+
+    /* ========== NAVBAR – clean & light ========== */
+    .navbar {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 0.9rem 0;
+      box-shadow: 0 4px 24px rgba(124, 77, 255, 0.06);
+      border-bottom: 1px solid rgba(179, 157, 219, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-100%); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .navbar-brand {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      color: var(--charcoal) !important;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: var(--transition);
+    }
+
+    .navbar-brand:hover {
+      transform: scale(1.03);
+    }
+
+    .navbar-brand i {
+      background: var(--gradient-btn);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.9rem;
+      animation: crownGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes crownGlow {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(156, 110, 255, 0)); }
+      50% { filter: drop-shadow(0 0 12px rgba(156, 110, 255, 0.6)); }
+    }
+
+    .cart-button {
+      background: var(--gradient-btn);
+      background-size: 200% 200%;
+      border: none;
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      padding: 0.6rem 1.4rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      box-shadow: 0 8px 22px -6px rgba(156, 110, 255, 0.4);
+      animation: gradientShift 5s ease infinite;
+      text-decoration: none;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .cart-button:hover {
+      background: var(--gradient-btn-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px -8px rgba(156, 110, 255, 0.55);
+      color: var(--white);
+    }
+
+    .cart-count {
+      background-color: var(--white);
+      color: var(--violet-deep);
+      border-radius: 50%;
+      min-width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      animation: countPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes countPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    /* ========== SHOP SECTION ========== */
+    .shop-section {
+      padding: 3.5rem 0 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========== PAGE TITLE ========== */
+    .page-title {
+      font-family: 'Fraunces', serif;
+      color: var(--charcoal);
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.03em;
+      animation: fadeSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.2s;
+    }
+
+    .page-title span {
+      background: var(--gradient-btn);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-style: italic;
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-title::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 4px;
+      margin: 1.2rem auto 2.5rem;
+      background: linear-gradient(90deg, transparent, var(--coral), transparent);
+      border-radius: 4px;
+      animation: lineExpand 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes lineExpand {
+      from { width: 0; opacity: 0; }
+      to { width: 100px; opacity: 1; }
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: var(--gray-soft);
+      font-size: 1.02rem;
+      margin-bottom: 3rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.35s;
+    }
+
+    /* ========== PRODUCT GRID ========== */
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 0;
+    }
+
+    /* ========== PRODUCT CARD ========== */
+    .product-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      transition: var(--transition);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: cardPop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .product-card:nth-child(1) { animation-delay: 0.4s; }
+    .product-card:nth-child(2) { animation-delay: 0.55s; }
+    .product-card:nth-child(3) { animation-delay: 0.7s; }
+
+    @keyframes cardPop {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 40px 80px -20px rgba(124, 77, 255, 0.3);
+    }
+
+    /* ========== PRODUCT IMAGE ========== */
+    .product-header {
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(160deg, var(--lavender-mist), var(--peach-soft));
+      height: 270px;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.08) rotate(1deg);
+    }
+
+    /* image overlay shimmer */
+    .product-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.25) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.8s ease;
+      pointer-events: none;
+    }
+
+    .product-card:hover .product-header::after {
+      transform: translateX(100%);
+    }
+
+    /* ========== BADGE ========== */
+    .badge-new {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index: 2;
+      background: var(--gradient-btn);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.8px;
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 6px 16px rgba(156, 110, 255, 0.35);
+      animation: badgeFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes badgeFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* ========== PRODUCT BODY ========== */
+    .product-body {
+      padding: 1.6rem 1.6rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-title {
+      font-family: 'Fraunces', serif;
+      color: var(--charcoal);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+      letter-spacing: -0.01em;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-title {
+      color: var(--violet-deep);
+    }
+
+    .product-description {
+      color: var(--gray-soft);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-price {
+      font-family: 'Fraunces', serif;
+      color: var(--violet-deep);
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+
+    .product-price::before {
+      content: '$';
+      font-size: 1rem;
+      color: var(--coral);
+      font-weight: 600;
+    }
+
+    /* ========== ADD TO CART BUTTON ========== */
+    .btn-add-to-cart {
+      background: var(--gradient-btn);
+      background-size: 200% 200%;
+      border: none;
+      padding: 0.85rem 1.3rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      color: var(--white);
+      width: 100%;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 26px -8px rgba(156, 110, 255, 0.45);
+      animation: gradientShift 5s ease infinite;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    .btn-add-to-cart::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-add-to-cart:hover {
+      background: var(--gradient-btn-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -10px rgba(156, 110, 255, 0.6);
+      color: var(--white);
+    }
+
+    .btn-add-to-cart:hover::before {
+      left: 100%;
+    }
+
+    .btn-add-to-cart:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-add-to-cart i {
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-add-to-cart:hover i {
+      transform: translateX(4px) scale(1.1);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 991px) {
+      .shop-section {
+        padding: 2.5rem 0 4rem;
+      }
+
+      .page-title {
+        font-size: 2.3rem;
+      }
+
+      .product-header {
+        height: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-brand {
+        font-size: 1.5rem;
+      }
+
+      .navbar-brand i {
+        font-size: 1.5rem;
+      }
+
+      .shop-section {
+        padding: 2rem 0.8rem 3rem;
+      }
+
+      .page-title {
+        font-size: 1.9rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+      }
+
+      .product-container {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .product-header {
+        height: 230px;
+      }
+
+      .product-body {
+        padding: 1.3rem 1.2rem 1.5rem;
+      }
+
+      .product-title {
+        font-size: 1.15rem;
+      }
+
+      .product-price {
+        font-size: 1.25rem;
+      }
+
+      .btn-add-to-cart {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      body::before,
+      body::after {
+        filter: blur(60px);
+        opacity: 0.35;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .page-title {
+        font-size: 1.6rem;
+      }
+
+      .product-header {
+        height: 200px;
+      }
+
+      .badge-new {
+        font-size: 0.65rem;
+        padding: 0.35rem 0.8rem;
+      }
+    }
+
+    /* ========== REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ========== ACCESSIBILITY ========== */
+    .btn-add-to-cart:focus-visible,
+    .cart-button:focus-visible {
+      outline: 3px solid var(--violet-vibrant);
+      outline-offset: 3px;
+    }
+
+    /* custom scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--lavender-mist); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--lilac);
+      border-radius: 10px;
+      border: 2px solid var(--lavender-mist);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--violet-vibrant); }
+  </style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-crown"></i>
+      LuxeBoutique
+    </a>
+
+    <div class="d-flex align-items-center">
+      <a href="/cart" class="cart-button">
+        <i class="fas fa-shopping-bag"></i>
+        Cart
+        <span class="cart-count">3</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= SHOP SECTION ================= -->
+<section class="shop-section">
+  <div class="container">
+
+    <h1 class="page-title">
+      Our Exquisite <span>Collection</span>
+    </h1>
+
+    <p class="page-subtitle">
+      Discover premium products crafted for the discerning shopper.
+    </p>
+
+    <div class="product-container">
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-header">
+          <span class="badge-new">
+            <i class="fas fa-sparkles me-1"></i>NEW
+          </span>
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+               alt="Premium Running Shoes" class="product-image">
+        </div>
+        <div class="product-body">
+          <h3 class="product-title">Premium Running Shoes</h3>
+          <p class="product-description">
+            Experience unparalleled comfort with our luxury running shoes, crafted with premium materials for the discerning athlete.
+          </p>
+          <p class="product-price">199.99</p>
+          <button class="btn-add-to-cart">
+            <i class="fas fa-cart-plus"></i>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-header">
+          <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1528&q=80"
+               alt="Designer Handbag" class="product-image">
+        </div>
+        <div class="product-body">
+          <h3 class="product-title">Designer Handbag</h3>
+          <p class="product-description">
+            Elevate your style with this exquisite designer handbag, featuring genuine leather and meticulous craftsmanship.
+          </p>
+          <p class="product-price">349.99</p>
+          <button class="btn-add-to-cart">
+            <i class="fas fa-cart-plus"></i>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-header">
+          <span class="badge-new">
+            <i class="fas fa-star me-1"></i>LIMITED
+          </span>
+          <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1528&q=80"
+               alt="Luxury Watch" class="product-image">
+        </div>
+        <div class="product-body">
+          <h3 class="product-title">Luxury Watch</h3>
+          <p class="product-description">
+            A timeless masterpiece of precision engineering, this luxury watch is the perfect blend of form and function.
+          </p>
+          <p class="product-price">1299.99</p>
+          <button class="btn-add-to-cart">
+            <i class="fas fa-cart-plus"></i>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Font Awesome JS (optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="header">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="LuxeBoutique - Premium Fashion & Lifestyle Store">
+  <meta name="theme-color" content="#f3eefc">
+
+  <title>LuxeBoutique | Premium Shopping</title>
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Google Fonts: light + modern -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Favicon (inline SVG for light aesthetic) -->
+  <link rel="icon"
+        type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%239c6eff'/%3E%3Cstop offset='100%25' style='stop-color:%23ff7b6b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M50 5 L61 35 L95 35 L68 55 L79 88 L50 68 L21 88 L32 55 L5 35 L39 35 Z'/%3E%3C/svg%3E">
+
+  <style>
+    /* ========== GLOBAL CSS RESET & DESIGN TOKENS ========== */
+    /* These tokens are shared across all LuxeBoutique pages for consistency */
+
+    :root {
+      /* Soft pastel palette with vibrant accents */
+      --lavender-mist: #f3eefc;
+      --lavender-soft: #e6dcf7;
+      --lilac: #b39ddb;
+      --violet-deep: #7c4dff;
+      --violet-vibrant: #9c6eff;
+      --peach-soft: #ffe8e0;
+      --peach-warm: #ffb4a2;
+      --coral: #ff7b6b;
+      --mint-mist: #e3f7f2;
+      --mint: #6bd6c0;
+      --teal-deep: #0fa890;
+      --sky-mist: #e8f4fd;
+      --sky: #5aa9e6;
+      --cream: #fffdfa;
+      --white: #ffffff;
+      --charcoal: #2d2640;
+      --gray-soft: #8b8399;
+      --error-soft: #e05a4f;
+
+      /* Gradients */
+      --gradient-hero: linear-gradient(135deg, #f3eefc 0%, #e8f4fd 50%, #ffe8e0 100%);
+      --gradient-btn: linear-gradient(135deg, #9c6eff 0%, #ff7b6b 100%);
+      --gradient-btn-hover: linear-gradient(135deg, #7c4dff 0%, #ff5c47 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffb347 100%);
+      --gradient-heart: linear-gradient(135deg, #ff5c8a 0%, #ff7b6b 100%);
+
+      /* Shadows */
+      --shadow-soft: 0 20px 50px -12px rgba(124, 77, 255, 0.15);
+      --shadow-card: 0 30px 70px -20px rgba(124, 77, 255, 0.22);
+      --shadow-input: 0 2px 10px rgba(124, 77, 255, 0.06);
+
+      /* Border radii */
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-pill: 50px;
+
+      /* Transitions */
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* ========== BASE RESET ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--gradient-hero);
+      color: var(--charcoal);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== SHARED DECORATIVE BACKGROUND BLOBS ========== */
+    /* These appear consistently across all pages */
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatBlob 12s ease-in-out infinite;
+    }
+
+    body::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #b39ddb 0%, transparent 70%);
+      top: -180px;
+      right: -120px;
+    }
+
+    body::after {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, #ffb4a2 0%, transparent 70%);
+      bottom: -160px;
+      left: -100px;
+      animation-delay: -6s;
+    }
+
+    @keyframes floatBlob {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.08); }
+    }
+
+    /* ========== SHARED TYPOGRAPHY ========== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--charcoal);
+    }
+
+    /* ========== SHARED ANIMATION KEYFRAMES ========== */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cardPop {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes badgePop {
+      0% { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+      70% { transform: scale(1.1) rotate(5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(156, 110, 255, 0.5); }
+      70% { box-shadow: 0 0 0 14px rgba(156, 110, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(156, 110, 255, 0); }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.15); }
+    }
+
+    @keyframes circleFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -25px) scale(1.15); }
+    }
+
+    /* ========== SHARED SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--lavender-mist); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--lilac);
+      border-radius: 10px;
+      border: 2px solid var(--lavender-mist);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--violet-vibrant); }
+
+    /* ========== SHARED ACCESSIBILITY ========== */
+    *:focus-visible {
+      outline: 3px solid var(--violet-vibrant);
+      outline-offset: 3px;
+    }
+
+    /* ========== SHARED SELECTION ========== */
+    ::selection {
+      background: rgba(156, 110, 255, 0.25);
+      color: var(--charcoal);
+    }
+
+    /* ========== SHARED REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ========== RESPONSIVE BLOB ADJUSTMENTS ========== */
+    @media (max-width: 768px) {
+      body::before,
+      body::after {
+        filter: blur(60px);
+        opacity: 0.35;
+      }
+    }
+  </style>
+
+</head>
+
+</html>

@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>LuxeBoutique Footer</title>
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Google Fonts: light + modern -->
@@ -52,10 +51,10 @@
 
       <!-- Quick Links Column -->
       <div class="footer-col">
-        <h4 class="footer-heading">
+        <h3 class="footer-heading">
           <i class="fas fa-link"></i>
           Quick Links
-        </h4>
+        </h3>
         <ul class="footer-links">
           <li>
             <a th:href="@{/home}">
@@ -70,43 +69,9 @@
             </a>
           </li>
           <li>
-            <a th:href="@{/about}">
-              <i class="fas fa-chevron-right"></i>
-              About Us
-            </a>
-          </li>
-          <li>
-            <a th:href="@{/contact}">
-              <i class="fas fa-chevron-right"></i>
-              Contact
-            </a>
-          </li>
-          <li>
-            <a th:href="@{/faq}">
-              <i class="fas fa-chevron-right"></i>
-              FAQ
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Customer Links Column -->
-      <div class="footer-col">
-        <h4 class="footer-heading">
-          <i class="fas fa-user"></i>
-          Customer
-        </h4>
-        <ul class="footer-links">
-          <li>
-            <a th:href="@{/profile}">
-              <i class="fas fa-chevron-right"></i>
-              My Profile
-            </a>
-          </li>
-          <li>
             <a th:href="@{/cart}">
               <i class="fas fa-chevron-right"></i>
-              My Cart
+              Cart
             </a>
           </li>
           <li>
@@ -118,7 +83,7 @@
           <li>
             <a th:href="@{/order-history}">
               <i class="fas fa-chevron-right"></i>
-              Order History
+              Orders
             </a>
           </li>
         </ul>
@@ -126,10 +91,10 @@
 
       <!-- Contact Column -->
       <div class="footer-col">
-        <h4 class="footer-heading">
+        <h3 class="footer-heading">
           <i class="fas fa-envelope"></i>
           Contact Us
-        </h4>
+        </h3>
         <ul class="footer-contact">
           <li>
             <i class="fas fa-envelope"></i>
@@ -162,8 +127,10 @@
   </div>
 
   <style>
-    /* ========== FOOTER DESIGN TOKENS ========== */
-    :root {
+    /* =====================================================
+       FOOTER DESIGN TOKENS
+    ===================================================== */
+    .luxe-footer {
       --lavender-mist: #f3eefc;
       --lavender-soft: #e6dcf7;
       --lilac: #b39ddb;
@@ -184,7 +151,9 @@
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
-    /* ========== FOOTER BASE ========== */
+    /* =====================================================
+       FOOTER BASE
+    ===================================================== */
     .luxe-footer {
       background: var(--charcoal);
       color: rgba(255, 255, 255, 0.85);
@@ -195,7 +164,7 @@
       overflow: hidden;
     }
 
-    /* decorative gradient accent bar at top */
+    /* top gradient accent bar */
     .luxe-footer::before {
       content: '';
       position: absolute;
@@ -241,10 +210,12 @@
       z-index: 1;
     }
 
-    /* ========== FOOTER GRID ========== */
+    /* =====================================================
+       FOOTER GRID
+    ===================================================== */
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      grid-template-columns: 1.5fr 1fr 1.2fr;
       gap: 3rem;
       margin-bottom: 3rem;
     }
@@ -253,7 +224,9 @@
       position: relative;
     }
 
-    /* ========== BRAND COLUMN ========== */
+    /* =====================================================
+       BRAND COLUMN
+    ===================================================== */
     .footer-logo {
       font-family: 'Fraunces', serif;
       font-weight: 700;
@@ -304,7 +277,9 @@
       max-width: 320px;
     }
 
-    /* ========== SOCIAL ICONS ========== */
+    /* =====================================================
+       SOCIAL ICONS
+    ===================================================== */
     .footer-social {
       display: flex;
       gap: 0.7rem;
@@ -357,7 +332,9 @@
       transform: rotate(-8deg) scale(1.1);
     }
 
-    /* ========== HEADINGS ========== */
+    /* =====================================================
+       HEADINGS
+    ===================================================== */
     .footer-heading {
       font-family: 'Fraunces', serif;
       font-size: 1.1rem;
@@ -393,7 +370,9 @@
       font-size: 0.95rem;
     }
 
-    /* ========== LINKS LIST ========== */
+    /* =====================================================
+       LINKS LIST
+    ===================================================== */
     .footer-links {
       list-style: none;
       padding: 0;
@@ -447,7 +426,9 @@
       width: 100%;
     }
 
-    /* ========== CONTACT LIST ========== */
+    /* =====================================================
+       CONTACT LIST
+    ===================================================== */
     .footer-contact {
       list-style: none;
       padding: 0;
@@ -486,7 +467,9 @@
       transform: scale(1.15) rotate(-8deg);
     }
 
-    /* ========== DIVIDER ========== */
+    /* =====================================================
+       DIVIDER
+    ===================================================== */
     .footer-divider {
       height: 1px;
       background: linear-gradient(
@@ -501,7 +484,9 @@
       position: relative;
     }
 
-    /* ========== FOOTER BOTTOM ========== */
+    /* =====================================================
+       FOOTER BOTTOM
+    ===================================================== */
     .footer-bottom {
       text-align: center;
       padding-bottom: 1rem;
@@ -533,10 +518,12 @@
       75% { transform: scale(1.15); }
     }
 
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 1024px) {
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 992px) {
       .footer-grid {
-        grid-template-columns: 1.5fr 1fr 1fr;
+        grid-template-columns: 1.5fr 1fr;
         gap: 2.5rem;
       }
 
@@ -556,12 +543,12 @@
       }
 
       .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        text-align: center;
       }
 
       .footer-brand-col {
-        grid-column: 1 / -1;
         text-align: center;
       }
 
@@ -577,6 +564,7 @@
 
       .footer-heading {
         font-size: 1rem;
+        justify-content: center;
       }
 
       .footer-heading::after {
@@ -587,51 +575,33 @@
       .footer-col:hover .footer-heading::after {
         width: 60px;
       }
+
+      .footer-links a {
+        justify-content: center;
+      }
+
+      .footer-links a:hover {
+        transform: translateX(0) scale(1.05);
+      }
+
+      .footer-contact li {
+        justify-content: center;
+        flex-direction: row;
+        text-align: left;
+      }
+
+      .footer-contact li:hover {
+        transform: translateX(0) scale(1.03);
+      }
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 480px) {
       .luxe-footer {
         padding: 2.5rem 0 1.2rem;
       }
 
       .footer-inner {
         padding: 0 1.2rem;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        text-align: center;
-      }
-
-      .footer-heading {
-        justify-content: center;
-      }
-
-      .footer-heading::after {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .footer-links a,
-      .footer-contact li {
-        justify-content: center;
-      }
-
-      .footer-links a:hover,
-      .footer-contact li:hover {
-        transform: translateX(0) scale(1.03);
-      }
-
-      .footer-contact li {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.4rem;
-        text-align: center;
-      }
-
-      .footer-contact li i {
-        margin-top: 0;
       }
 
       .footer-logo {
@@ -642,18 +612,6 @@
         font-size: 1.5rem;
       }
 
-      .footer-bottom p {
-        font-size: 0.82rem;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .footer-social a {
-        width: 38px;
-        height: 38px;
-        font-size: 0.95rem;
-      }
-
       .footer-heading {
         font-size: 0.95rem;
       }
@@ -662,22 +620,35 @@
       .footer-contact li {
         font-size: 0.85rem;
       }
+
+      .footer-social a {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+      }
+
+      .footer-bottom p {
+        font-size: 0.82rem;
+      }
     }
 
-    /* ========== REDUCED MOTION ========== */
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      .luxe-footer *,
+      .luxe-footer *::before,
+      .luxe-footer *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
     }
 
-    /* ========== ACCESSIBILITY ========== */
-    .footer-links a:focus-visible,
-    .footer-contact li:focus-visible,
-    .footer-social a:focus-visible,
-    .footer-logo:focus-visible {
+    /* =====================================================
+       ACCESSIBILITY
+    ===================================================== */
+    .luxe-footer a:focus-visible {
       outline: 3px solid var(--violet-vibrant);
       outline-offset: 3px;
       border-radius: 4px;

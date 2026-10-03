@@ -1,5 +1,10 @@
 package com.example.ecommerce.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
@@ -25,6 +31,7 @@ public class UserController {
     @Autowired
     private ProductService productService;
 
+
     // ==========================
     // Home page
     // ==========================
@@ -33,6 +40,7 @@ public class UserController {
         return "front";
     }
 
+
     // ==========================
     // Home
     // ==========================
@@ -40,6 +48,7 @@ public class UserController {
     public String home() {
         return "home";
     }
+
 
     // ==========================
     // Shop
@@ -58,6 +67,7 @@ public class UserController {
         return "shop";
     }
 
+
     // ==========================
     // User home
     // ==========================
@@ -75,6 +85,7 @@ public class UserController {
         return "product";
     }
 
+
     // ==========================
     // Login page
     // ==========================
@@ -83,12 +94,12 @@ public class UserController {
         return "login";
     }
 
+
     // ==========================
     // Registration page
     // ==========================
     @GetMapping("/register")
-    public String showRegistrationForm(
-            Model model) {
+    public String showRegistrationForm(Model model) {
 
         model.addAttribute(
                 "user",
@@ -97,6 +108,7 @@ public class UserController {
 
         return "register";
     }
+
 
     // ==========================
     // Register user
@@ -126,6 +138,7 @@ public class UserController {
         return "redirect:/login";
     }
 
+
     // ==========================
     // Login user
     // ==========================
@@ -145,19 +158,19 @@ public class UserController {
         if (user != null) {
 
             // Store username in session
-            // Used by CartController and OrderController
             session.setAttribute(
                     "username",
                     user.getUsername()
             );
 
-            // Store user object as well
+            // Store user object in session
             session.setAttribute(
                     "user",
                     user
             );
 
-            return "redirect:/products";
+            // After successful login
+            return "redirect:/home";
         }
 
         model.addAttribute(
@@ -168,6 +181,7 @@ public class UserController {
         return "login";
     }
 
+
     // ==========================
     // Wishlist page
     // ==========================
@@ -176,6 +190,7 @@ public class UserController {
         return "wishlist";
     }
 
+
     // ==========================
     // Order history
     // ==========================
@@ -183,6 +198,7 @@ public class UserController {
     public String orderHistory() {
         return "redirect:/orders";
     }
+
 
     // ==========================
     // Profile
@@ -207,6 +223,7 @@ public class UserController {
         return "profile";
     }
 
+
     // ==========================
     // Edit profile
     // ==========================
@@ -230,13 +247,133 @@ public class UserController {
         return "edit-profile";
     }
 
+
+    // ==========================
+    // Update profile
+    // ==========================
+    @PostMapping("/update-profile")
+    public String updateProfile(
+            @RequestParam("username") String username,
+            @RequestParam("phone") String phone,
+            @RequestParam(
+                    value = "profileImage",
+                    required = false
+            ) MultipartFile profileImage,
+            HttpSession session) throws IOException {
+
+        // Get logged-in user
+        User user =
+                getLoggedInUser(session);
+
+        // If user is not logged in
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // ==========================
+        // Update username
+        // ==========================
+        user.setUsername(username);
+
+
+        // ==========================
+        // Update phone number
+        // ==========================
+        user.setPhone(phone);
+
+
+        // ==========================
+        // Upload profile image
+        // ==========================
+        if (profileImage != null
+                && !profileImage.isEmpty()) {
+
+            String uploadDir =
+                    "uploads/profile/";
+
+            // Create directory if it doesn't exist
+            File directory =
+                    new File(uploadDir);
+
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+
+            // Get original file name
+            String originalFileName =
+                    profileImage.getOriginalFilename();
+
+            if (originalFileName == null) {
+                originalFileName = "profile-image";
+            }
+
+
+            // Create unique file name
+            String fileName =
+                    System.currentTimeMillis()
+                    + "_"
+                    + originalFileName;
+
+
+            // Create file path
+            Path filePath =
+                    Paths.get(
+                            uploadDir + fileName
+                    );
+
+
+            // Save image
+            Files.write(
+                    filePath,
+                    profileImage.getBytes()
+            );
+
+
+            // Store image URL in database
+            user.setProfileImage(
+                    "/uploads/profile/"
+                    + fileName
+            );
+        }
+
+
+        // ==========================
+        // Save updated user
+        // ==========================
+        userService.saveUser(user);
+
+
+        // ==========================
+        // Update session
+        // ==========================
+        session.setAttribute(
+                "user",
+                user
+        );
+
+        session.setAttribute(
+                "username",
+                user.getUsername()
+        );
+
+
+        // ==========================
+        // Return to profile
+        // ==========================
+        return "redirect:/profile";
+    }
+
+
     // ==========================
     // About
     // ==========================
     @GetMapping("/about")
-    public String about(HttpSession session) {
+    public String about(
+            HttpSession session) {
 
-        User user = (User) session.getAttribute("user");
+        User user =
+                (User) session.getAttribute("user");
 
         if (user == null) {
             return "redirect:/login";
@@ -244,6 +381,8 @@ public class UserController {
 
         return "about";
     }
+
+
     // ==========================
     // Contact
     // ==========================
@@ -252,6 +391,7 @@ public class UserController {
         return "contact";
     }
 
+
     // ==========================
     // FAQ
     // ==========================
@@ -259,6 +399,7 @@ public class UserController {
     public String faq() {
         return "faq";
     }
+
 
     // ==========================
     // Logout
@@ -271,6 +412,7 @@ public class UserController {
 
         return "redirect:/login";
     }
+
 
     // ==========================
     // Get logged-in user

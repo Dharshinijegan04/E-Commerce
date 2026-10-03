@@ -1,5 +1,7 @@
 package com.example.ecommerce.model;
 
+import com.example.ecommerce.Validation.PasswordMatcher;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@PasswordMatcher
 public class User {
 
     @Id
@@ -17,7 +20,11 @@ public class User {
     private Long id;
 
     @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 30, message = "Username must be between 3 and 30 characters")
+    @Size(
+        min = 3,
+        max = 30,
+        message = "Username must be between 3 and 30 characters"
+    )
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -27,9 +34,26 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must contain at least 6 characters")
+    @Size(
+        min = 6,
+        message = "Password must contain at least 6 characters"
+    )
     @Column(nullable = false)
     private String password;
+
+    /*
+     * Confirm password is only used during validation.
+     * It will NOT be stored in the database.
+     */
+    @Transient
+    @NotBlank(message = "Confirm password is required")
+    private String confirmpassword;
+    
+    @Column(name = "profile_image")
+    private String profileImage;
+    
+    @Column(name = "phone")
+    private String phone;
 
     @Column(nullable = false)
     private String role = "USER";
@@ -40,16 +64,24 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
+    // Default constructor
     public User() {
     }
 
-    public User(String username, String email, String password, String role) {
+    // Constructor
+    public User(
+            String username,
+            String email,
+            String password,
+            String role) {
+
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
+    // ID
     public Long getId() {
         return id;
     }
@@ -58,6 +90,7 @@ public class User {
         this.id = id;
     }
 
+    // Username
     public String getUsername() {
         return username;
     }
@@ -66,6 +99,7 @@ public class User {
         this.username = username;
     }
 
+    // Email
     public String getEmail() {
         return email;
     }
@@ -74,6 +108,7 @@ public class User {
         this.email = email;
     }
 
+    // Password
     public String getPassword() {
         return password;
     }
@@ -82,6 +117,16 @@ public class User {
         this.password = password;
     }
 
+    // Confirm Password
+    public String getConfirmpassword() {
+        return confirmpassword;
+    }
+
+    public void setConfirmpassword(String confirmpassword) {
+        this.confirmpassword = confirmpassword;
+    }
+
+    // Role
     public String getRole() {
         return role;
     }
@@ -90,6 +135,7 @@ public class User {
         this.role = role;
     }
 
+    // Orders
     public List<Order> getOrders() {
         return orders;
     }
@@ -97,12 +143,43 @@ public class User {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+    
+ // Profile Image
 
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    // Cart
     public Cart getCart() {
         return cart;
     }
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /*
+     * Check whether password and confirm password match.
+     */
+    public boolean isPasswordMatching() {
+
+        if (password == null || confirmpassword == null) {
+            return false;
+        }
+
+        return password.equals(confirmpassword);
     }
 }

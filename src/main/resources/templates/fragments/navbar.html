@@ -1,640 +1,1183 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>LuxeBoutique Navbar</title>
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- Google Fonts: light + modern -->
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ========== LIGHT & ATTRACTIVE DESIGN TOKENS ========== */
-    :root {
-      --lavender-mist: #f3eefc;
-      --lavender-soft: #e6dcf7;
-      --lilac: #b39ddb;
-      --violet-deep: #7c4dff;
-      --violet-vibrant: #9c6eff;
-      --peach-soft: #ffe8e0;
-      --peach-warm: #ffb4a2;
-      --coral: #ff7b6b;
-      --mint-mist: #e3f7f2;
-      --mint: #6bd6c0;
-      --teal-deep: #0fa890;
-      --sky-mist: #e8f4fd;
-      --sky: #5aa9e6;
-      --cream: #fffdfa;
-      --white: #ffffff;
-      --charcoal: #2d2640;
-      --gray-soft: #8b8399;
-
-      --gradient-btn: linear-gradient(135deg, #9c6eff 0%, #ff7b6b 100%);
-      --gradient-btn-hover: linear-gradient(135deg, #7c4dff 0%, #ff5c47 100%);
-      --shadow-card: 0 30px 70px -20px rgba(124, 77, 255, 0.22);
-      --radius-pill: 50px;
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    /* ========== NAVBAR – clean & light ========== */
-    .navbar {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 0.9rem 0;
-      box-shadow: 0 4px 24px rgba(124, 77, 255, 0.06);
-      border-bottom: 1px solid rgba(179, 157, 219, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-100%); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .navbar-inner {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    /* ========== LOGO ========== */
-    .logo {
-      font-family: 'Fraunces', serif;
-      font-weight: 700;
-      font-size: 1.9rem;
-      letter-spacing: -0.02em;
-      color: var(--charcoal);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .logo:hover {
-      transform: scale(1.03);
-      color: var(--charcoal);
-    }
-
-    .logo i {
-      background: var(--gradient-btn);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 1.9rem;
-      animation: crownGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes crownGlow {
-      0%, 100% { filter: drop-shadow(0 0 0 rgba(156, 110, 255, 0)); }
-      50% { filter: drop-shadow(0 0 12px rgba(156, 110, 255, 0.6)); }
-    }
-
-    /* ========== NAVIGATION LINKS ========== */
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: var(--charcoal);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      letter-spacing: 0.1px;
-      padding: 0.4rem 0.2rem;
-      margin: 0 0.4rem;
-      position: relative;
-      transition: var(--transition);
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .nav-links a i {
-      font-size: 0.9rem;
-      color: var(--lilac);
-      transition: var(--transition);
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gradient-btn);
-      border-radius: 2px;
-      transition: width 0.35s ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--violet-deep);
-    }
-
-    .nav-links a:hover i,
-    .nav-links a.active i {
-      color: var(--violet-deep);
-      transform: scale(1.1);
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      width: 100%;
-    }
-
-    /* ========== SEARCH BOX ========== */
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      position: relative;
-      flex: 1;
-      max-width: 280px;
-      min-width: 200px;
-    }
-
-    .search-box .search-input-wrapper {
-      position: relative;
-      flex: 1;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 0.7rem 1rem 0.7rem 2.6rem;
-      font-size: 0.9rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: var(--charcoal);
-      background: var(--lavender-mist);
-      border: 2px solid transparent;
-      border-radius: var(--radius-pill);
-      outline: none;
-      transition: var(--transition);
-      box-shadow: 0 2px 10px rgba(124, 77, 255, 0.06);
-    }
-
-    .search-box input::placeholder {
-      color: #a9a2b8;
-      font-weight: 400;
-    }
-
-    .search-box input:focus {
-      background: var(--white);
-      border-color: var(--violet-vibrant);
-      box-shadow: 0 0 0 5px rgba(156, 110, 255, 0.12);
-    }
-
-    .search-box .search-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--lilac);
-      font-size: 0.9rem;
-      pointer-events: none;
-      transition: var(--transition);
-    }
-
-    .search-box input:focus ~ .search-icon {
-      color: var(--violet-vibrant);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .search-box button {
-      padding: 0.7rem 1.2rem;
-      border: none;
-      background: var(--gradient-btn);
-      background-size: 200% 200%;
-      color: var(--white);
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      transition: var(--transition);
-      box-shadow: 0 8px 22px -6px rgba(156, 110, 255, 0.4);
-      animation: gradientShift 5s ease infinite;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      white-space: nowrap;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .search-box button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .search-box button:hover {
-      background: var(--gradient-btn-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px -8px rgba(156, 110, 255, 0.55);
-      color: var(--white);
-    }
-
-    .search-box button:hover::before {
-      left: 100%;
-    }
-
-    .search-box button:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    /* ========== AUTH LINKS ========== */
-    .auth-links {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-    }
-
-    /* Login Button (when not logged in) */
-    .auth-links .btn-login {
-      background: var(--gradient-btn);
-      background-size: 200% 200%;
-      color: var(--white);
-      border: none;
-      border-radius: var(--radius-pill);
-      padding: 0.6rem 1.4rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: var(--transition);
-      box-shadow: 0 8px 22px -6px rgba(156, 110, 255, 0.4);
-      animation: gradientShift 5s ease infinite;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .auth-links .btn-login::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-      transition: left 0.6s ease;
-    }
-
-    .auth-links .btn-login:hover {
-      background: var(--gradient-btn-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px -8px rgba(156, 110, 255, 0.55);
-      color: var(--white);
-    }
-
-    .auth-links .btn-login:hover::before {
-      left: 100%;
-    }
-
-    /* User Name Badge (when logged in) */
-    .user-name {
-      color: var(--charcoal);
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.4rem 1rem;
-      background: linear-gradient(135deg, var(--lavender-mist), var(--peach-soft));
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .user-name i {
-      color: var(--violet-deep);
-      font-size: 0.95rem;
-      animation: userBob 3s ease-in-out infinite;
-    }
-
-    @keyframes userBob {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-
-    .user-name:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px -6px rgba(124, 77, 255, 0.2);
-    }
-
-    /* Logout Button (when logged in) */
-    .auth-links .btn-logout {
-      background: var(--white);
-      color: var(--charcoal);
-      border: 2px solid var(--lavender-soft);
-      border-radius: var(--radius-pill);
-      padding: 0.55rem 1.3rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: var(--transition);
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .auth-links .btn-logout::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(156, 110, 255, 0.08);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.5s ease, height 0.5s ease;
-    }
-
-    .auth-links .btn-logout:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    .auth-links .btn-logout:hover {
-      border-color: var(--violet-vibrant);
-      color: var(--violet-deep);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px -10px rgba(156, 110, 255, 0.3);
-    }
-
-    .auth-links .btn-logout i {
-      position: relative;
-      z-index: 1;
-      transition: transform 0.3s ease;
-    }
-
-    .auth-links .btn-logout:hover i {
-      transform: translateX(4px);
-    }
-
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 992px) {
-      .navbar-inner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-      }
-
-      .logo {
-        align-self: center;
-      }
-
-      .nav-links {
-        justify-content: center;
-      }
-
-      .search-box {
-        max-width: 100%;
-        width: 100%;
-      }
-
-      .auth-links {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .logo {
-        font-size: 1.5rem;
-      }
-
-      .logo i {
-        font-size: 1.5rem;
-      }
-
-      .nav-links {
-        gap: 0.2rem;
-      }
-
-      .nav-links a {
-        font-size: 0.85rem;
-        margin: 0 0.3rem;
-      }
-
-      .nav-links a i {
-        font-size: 0.8rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .navbar-inner {
-        padding: 0 0.8rem;
-        gap: 0.8rem;
-      }
-
-      .logo {
-        font-size: 1.3rem;
-      }
-
-      .logo i {
-        font-size: 1.3rem;
-      }
-
-      .nav-links {
-        gap: 0.15rem;
-      }
-
-      .nav-links a {
-        font-size: 0.8rem;
-        margin: 0 0.2rem;
-        padding: 0.3rem 0.1rem;
-      }
-
-      .nav-links a i {
-        display: none;
-      }
-
-      .search-box {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .search-box .search-input-wrapper {
-        width: 100%;
-      }
-
-      .search-box button {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .auth-links {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .user-name {
-        font-size: 0.85rem;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .nav-links a {
-        font-size: 0.75rem;
-        margin: 0 0.15rem;
-      }
-
-      .auth-links .btn-login,
-      .auth-links .btn-logout {
-        padding: 0.5rem 1rem;
-        font-size: 0.82rem;
-      }
-    }
-
-    /* ========== REDUCED MOTION ========== */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* ========== ACCESSIBILITY ========== */
-    .nav-links a:focus-visible,
-    .search-box input:focus-visible,
-    .search-box button:focus-visible,
-    .auth-links .btn-login:focus-visible,
-    .auth-links .btn-logout:focus-visible {
-      outline: 3px solid var(--violet-vibrant);
-      outline-offset: 3px;
-    }
-  </style>
-</head>
 
 <body>
 
 <!-- ================= NAVBAR FRAGMENT ================= -->
-<nav class="navbar" th:fragment="navbar">
+<div th:fragment="navbar">
 
-  <div class="navbar-inner">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Logo -->
-    <a th:href="@{/home}" class="logo">
-      <i class="fas fa-crown"></i>
-      LuxeBoutique
-    </a>
+    <!-- Google Fonts: light + modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
-    <!-- Navigation Links (when logged in) -->
-    <div class="nav-links" th:if="${session.user != null}">
+    <style>
 
-      <a th:href="@{/products}">
-        <i class="fas fa-store"></i>
-        Products
-      </a>
+        /* ========== LIGHT & ATTRACTIVE DESIGN TOKENS ========== */
 
-      <a th:href="@{/cart}">
-        <i class="fas fa-shopping-bag"></i>
-        Cart
-      </a>
+        :root {
+            --lavender-mist: #f3eefc;
+            --lavender-soft: #e6dcf7;
+            --lilac: #b39ddb;
+            --violet-deep: #7c4dff;
+            --violet-vibrant: #9c6eff;
 
-      <a th:href="@{/wishlist}">
-        <i class="fas fa-heart"></i>
-        Wishlist
-      </a>
+            --peach-soft: #ffe8e0;
+            --peach-warm: #ffb4a2;
+            --coral: #ff7b6b;
 
-      <a th:href="@{/order-history}">
-        <i class="fas fa-clock-rotate-left"></i>
-        Orders
-      </a>
+            --mint-mist: #e3f7f2;
+            --mint: #6bd6c0;
+            --teal-deep: #0fa890;
 
-      <a th:href="@{/profile}">
-        <i class="fas fa-user"></i>
-        Profile
-      </a>
+            --sky-mist: #e8f4fd;
+            --sky: #5aa9e6;
 
-    </div>
+            --cream: #fffdfa;
+            --white: #ffffff;
 
-    <!-- Search Box (when logged in) -->
-    <form class="search-box"
-          th:action="@{/search}"
-          method="get"
-          th:if="${session.user != null}">
+            --charcoal: #2d2640;
+            --gray-soft: #8b8399;
 
-      <div class="search-input-wrapper">
-        <input type="text"
-               name="keyword"
-               placeholder="Search products..."
-               required>
-        <i class="fas fa-magnifying-glass search-icon"></i>
-      </div>
+            --gradient-btn: linear-gradient(
+                135deg,
+                #9c6eff 0%,
+                #ff7b6b 100%
+            );
 
-      <button type="submit">
-        <i class="fas fa-search"></i>
-        Search
-      </button>
+            --gradient-btn-hover: linear-gradient(
+                135deg,
+                #7c4dff 0%,
+                #ff5c47 100%
+            );
 
-    </form>
+            --shadow-card: 0 30px 70px -20px rgba(124, 77, 255, 0.22);
 
-    <!-- Authentication Links -->
-    <div class="auth-links">
+            --radius-pill: 50px;
 
-      <!-- When user is NOT logged in -->
-      <a th:href="@{/login}"
-         class="btn-login"
-         th:if="${session.user == null}">
-        <i class="fas fa-sign-in-alt"></i>
-        Login
-      </a>
+            --transition: all 0.3s cubic-bezier(
+                0.25,
+                0.8,
+                0.25,
+                1
+            );
+        }
 
-      <!-- When user IS logged in -->
-      <span class="user-name"
-            th:if="${session.user != null}">
-        <i class="fas fa-user-circle"></i>
-        <span th:text="${session.user.username}">User</span>
-      </span>
 
-      <a th:href="@{/logout}"
-         class="btn-logout"
-         th:if="${session.user != null}">
-        <i class="fas fa-sign-out-alt"></i>
-        Logout
-      </a>
+        /* ========== NAVBAR – clean & light ========== */
 
-    </div>
+        .navbar {
+            background: rgba(255, 255, 255, 0.75);
 
-  </div>
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
 
-</nav>
+            padding: 0.9rem 0;
+
+            box-shadow: 0 4px 24px rgba(124, 77, 255, 0.06);
+
+            border-bottom: 1px solid rgba(179, 157, 219, 0.2);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            animation: slideDown 0.7s cubic-bezier(
+                0.22,
+                1,
+                0.36,
+                1
+            ) both;
+        }
+
+
+        @keyframes slideDown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .navbar-inner {
+
+            max-width: 1320px;
+
+            margin: 0 auto;
+
+            padding: 0 1.5rem;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 1.5rem;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* ========== LOGO ========== */
+
+        .logo {
+
+            font-family: 'Fraunces', serif;
+
+            font-weight: 700;
+
+            font-size: 1.9rem;
+
+            letter-spacing: -0.02em;
+
+            color: var(--charcoal);
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.55rem;
+
+            transition: var(--transition);
+
+            white-space: nowrap;
+        }
+
+
+        .logo:hover {
+
+            transform: scale(1.03);
+
+            color: var(--charcoal);
+        }
+
+
+        .logo i {
+
+            background: var(--gradient-btn);
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
+
+            font-size: 1.9rem;
+
+            animation: crownGlow 3s ease-in-out infinite;
+        }
+
+
+        @keyframes crownGlow {
+
+            0%,
+            100% {
+                filter: drop-shadow(
+                    0 0 0 rgba(156, 110, 255, 0)
+                );
+            }
+
+            50% {
+                filter: drop-shadow(
+                    0 0 12px rgba(156, 110, 255, 0.6)
+                );
+            }
+
+        }
+
+
+        /* ========== NAVIGATION LINKS ========== */
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.4rem;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links a {
+
+            color: var(--charcoal);
+
+            text-decoration: none;
+
+            font-size: 0.95rem;
+
+            font-weight: 500;
+
+            letter-spacing: 0.1px;
+
+            padding: 0.4rem 0.2rem;
+
+            margin: 0 0.4rem;
+
+            position: relative;
+
+            transition: var(--transition);
+
+            white-space: nowrap;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.4rem;
+        }
+
+
+        .nav-links a i {
+
+            font-size: 0.9rem;
+
+            color: var(--lilac);
+
+            transition: var(--transition);
+        }
+
+
+        .nav-links a::after {
+
+            content: '';
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: 0;
+
+            width: 0;
+
+            height: 2px;
+
+            background: var(--gradient-btn);
+
+            border-radius: 2px;
+
+            transition: width 0.35s ease;
+        }
+
+
+        .nav-links a:hover,
+        .nav-links a.active {
+
+            color: var(--violet-deep);
+        }
+
+
+        .nav-links a:hover i,
+        .nav-links a.active i {
+
+            color: var(--violet-deep);
+
+            transform: scale(1.1);
+        }
+
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+
+            width: 100%;
+        }
+
+
+        /* ========== SEARCH BOX ========== */
+
+        .search-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.5rem;
+
+            position: relative;
+
+            flex: 1;
+
+            max-width: 280px;
+
+            min-width: 200px;
+        }
+
+
+        .search-box .search-input-wrapper {
+
+            position: relative;
+
+            flex: 1;
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            padding: 0.7rem 1rem 0.7rem 2.6rem;
+
+            font-size: 0.9rem;
+
+            font-family: 'Plus Jakarta Sans', sans-serif;
+
+            color: var(--charcoal);
+
+            background: var(--lavender-mist);
+
+            border: 2px solid transparent;
+
+            border-radius: var(--radius-pill);
+
+            outline: none;
+
+            transition: var(--transition);
+
+            box-shadow: 0 2px 10px rgba(
+                124,
+                77,
+                255,
+                0.06
+            );
+        }
+
+
+        .search-box input::placeholder {
+
+            color: #a9a2b8;
+
+            font-weight: 400;
+        }
+
+
+        .search-box input:focus {
+
+            background: var(--white);
+
+            border-color: var(--violet-vibrant);
+
+            box-shadow: 0 0 0 5px rgba(
+                156,
+                110,
+                255,
+                0.12
+            );
+        }
+
+
+        .search-box .search-icon {
+
+            position: absolute;
+
+            left: 1rem;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--lilac);
+
+            font-size: 0.9rem;
+
+            pointer-events: none;
+
+            transition: var(--transition);
+        }
+
+
+        .search-box input:focus ~ .search-icon {
+
+            color: var(--violet-vibrant);
+
+            transform: translateY(-50%) scale(1.1);
+        }
+
+
+        .search-box button {
+
+            padding: 0.7rem 1.2rem;
+
+            border: none;
+
+            background: var(--gradient-btn);
+
+            background-size: 200% 200%;
+
+            color: var(--white);
+
+            border-radius: var(--radius-pill);
+
+            cursor: pointer;
+
+            font-weight: 600;
+
+            font-size: 0.85rem;
+
+            font-family: 'Plus Jakarta Sans', sans-serif;
+
+            transition: var(--transition);
+
+            box-shadow: 0 8px 22px -6px rgba(
+                156,
+                110,
+                255,
+                0.4
+            );
+
+            animation: gradientShift 5s ease infinite;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.4rem;
+
+            white-space: nowrap;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+        }
+
+
+        .search-box button::before {
+
+            content: '';
+
+            position: absolute;
+
+            top: 0;
+
+            left: -100%;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.35),
+                transparent
+            );
+
+            transition: left 0.6s ease;
+        }
+
+
+        .search-box button:hover {
+
+            background: var(--gradient-btn-hover);
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 14px 32px -8px rgba(
+                156,
+                110,
+                255,
+                0.55
+            );
+
+            color: var(--white);
+        }
+
+
+        .search-box button:hover::before {
+
+            left: 100%;
+        }
+
+
+        .search-box button:active {
+
+            transform: translateY(0) scale(0.98);
+        }
+
+
+        /* ========== AUTH LINKS ========== */
+
+        .auth-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.7rem;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* Login Button */
+
+        .auth-links .btn-login {
+
+            background: var(--gradient-btn);
+
+            background-size: 200% 200%;
+
+            color: var(--white);
+
+            border: none;
+
+            border-radius: var(--radius-pill);
+
+            padding: 0.6rem 1.4rem;
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.4rem;
+
+            transition: var(--transition);
+
+            box-shadow: 0 8px 22px -6px rgba(
+                156,
+                110,
+                255,
+                0.4
+            );
+
+            animation: gradientShift 5s ease infinite;
+
+            text-decoration: none;
+
+            position: relative;
+
+            overflow: hidden;
+
+            cursor: pointer;
+        }
+
+
+        .auth-links .btn-login::before {
+
+            content: '';
+
+            position: absolute;
+
+            top: 0;
+
+            left: -100%;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.35),
+                transparent
+            );
+
+            transition: left 0.6s ease;
+        }
+
+
+        .auth-links .btn-login:hover {
+
+            background: var(--gradient-btn-hover);
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 14px 32px -8px rgba(
+                156,
+                110,
+                255,
+                0.55
+            );
+
+            color: var(--white);
+        }
+
+
+        .auth-links .btn-login:hover::before {
+
+            left: 100%;
+        }
+
+
+        /* User Name Badge */
+
+        .user-name {
+
+            color: var(--charcoal);
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.35rem;
+
+            padding: 0.4rem 1rem;
+
+            background: linear-gradient(
+                135deg,
+                var(--lavender-mist),
+                var(--peach-soft)
+            );
+
+            border-radius: var(--radius-pill);
+
+            border: 1px solid rgba(
+                255,
+                255,
+                255,
+                0.8
+            );
+
+            transition: var(--transition);
+
+            white-space: nowrap;
+        }
+
+
+        .user-name i {
+
+            color: var(--violet-deep);
+
+            font-size: 0.95rem;
+
+            animation: userBob 3s ease-in-out infinite;
+        }
+
+
+        @keyframes userBob {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+
+        }
+
+
+        .user-name:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 22px -6px rgba(
+                124,
+                77,
+                255,
+                0.2
+            );
+        }
+
+
+        /* Logout Button */
+
+        .auth-links .btn-logout {
+
+            background: var(--white);
+
+            color: var(--charcoal);
+
+            border: 2px solid var(--lavender-soft);
+
+            border-radius: var(--radius-pill);
+
+            padding: 0.55rem 1.3rem;
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 0.4rem;
+
+            transition: var(--transition);
+
+            text-decoration: none;
+
+            position: relative;
+
+            overflow: hidden;
+
+            cursor: pointer;
+        }
+
+
+        .auth-links .btn-logout::before {
+
+            content: '';
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            width: 0;
+
+            height: 0;
+
+            background: rgba(
+                156,
+                110,
+                255,
+                0.08
+            );
+
+            border-radius: 50%;
+
+            transform: translate(-50%, -50%);
+
+            transition: width 0.5s ease,
+                        height 0.5s ease;
+        }
+
+
+        .auth-links .btn-logout:hover::before {
+
+            width: 300px;
+
+            height: 300px;
+        }
+
+
+        .auth-links .btn-logout:hover {
+
+            border-color: var(--violet-vibrant);
+
+            color: var(--violet-deep);
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 12px 28px -10px rgba(
+                156,
+                110,
+                255,
+                0.3
+            );
+        }
+
+
+        .auth-links .btn-logout i {
+
+            position: relative;
+
+            z-index: 1;
+
+            transition: transform 0.3s ease;
+        }
+
+
+        .auth-links .btn-logout:hover i {
+
+            transform: translateX(4px);
+        }
+
+
+        /* ========== RESPONSIVE ========== */
+
+        @media (max-width: 992px) {
+
+            .navbar-inner {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 1rem;
+            }
+
+
+            .logo {
+
+                align-self: center;
+            }
+
+
+            .nav-links {
+
+                justify-content: center;
+            }
+
+
+            .search-box {
+
+                max-width: 100%;
+
+                width: 100%;
+            }
+
+
+            .auth-links {
+
+                justify-content: center;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .logo {
+
+                font-size: 1.5rem;
+            }
+
+
+            .logo i {
+
+                font-size: 1.5rem;
+            }
+
+
+            .nav-links {
+
+                gap: 0.2rem;
+            }
+
+
+            .nav-links a {
+
+                font-size: 0.85rem;
+
+                margin: 0 0.3rem;
+            }
+
+
+            .nav-links a i {
+
+                font-size: 0.8rem;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .navbar-inner {
+
+                padding: 0 0.8rem;
+
+                gap: 0.8rem;
+            }
+
+
+            .logo {
+
+                font-size: 1.3rem;
+            }
+
+
+            .logo i {
+
+                font-size: 1.3rem;
+            }
+
+
+            .nav-links {
+
+                gap: 0.15rem;
+            }
+
+
+            .nav-links a {
+
+                font-size: 0.8rem;
+
+                margin: 0 0.2rem;
+
+                padding: 0.3rem 0.1rem;
+            }
+
+
+            .nav-links a i {
+
+                display: none;
+            }
+
+
+            .search-box {
+
+                flex-direction: column;
+
+                gap: 0.5rem;
+            }
+
+
+            .search-box .search-input-wrapper {
+
+                width: 100%;
+            }
+
+
+            .search-box button {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .auth-links {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .user-name {
+
+                font-size: 0.85rem;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .nav-links a {
+
+                font-size: 0.75rem;
+
+                margin: 0 0.15rem;
+            }
+
+
+            .auth-links .btn-login,
+            .auth-links .btn-logout {
+
+                padding: 0.5rem 1rem;
+
+                font-size: 0.82rem;
+            }
+
+        }
+
+
+        /* ========== REDUCED MOTION ========== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+            }
+
+        }
+
+
+        /* ========== ACCESSIBILITY ========== */
+
+        .nav-links a:focus-visible,
+        .search-box input:focus-visible,
+        .search-box button:focus-visible,
+        .auth-links .btn-login:focus-visible,
+        .auth-links .btn-logout:focus-visible {
+
+            outline: 3px solid var(--violet-vibrant);
+
+            outline-offset: 3px;
+        }
+
+    </style>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="navbar-inner">
+
+            <!-- Logo -->
+
+            <a th:href="@{/home}" class="logo">
+
+                <i class="fas fa-crown"></i>
+
+                LuxeBoutique
+
+            </a>
+
+
+            <!-- Navigation Links (when logged in) -->
+
+            <div class="nav-links"
+                 th:if="${session.user != null}">
+
+                <a th:href="@{/products}">
+
+                    <i class="fas fa-store"></i>
+
+                    Products
+
+                </a>
+
+
+                <a th:href="@{/cart}">
+
+                    <i class="fas fa-shopping-bag"></i>
+
+                    Cart
+
+                </a>
+
+
+                <a th:href="@{/wishlist}">
+
+                    <i class="fas fa-heart"></i>
+
+                    Wishlist
+
+                </a>
+
+
+                <a th:href="@{/order-history}">
+
+                    <i class="fas fa-clock-rotate-left"></i>
+
+                    Orders
+
+                </a>
+
+
+                <a th:href="@{/profile}">
+
+                    <i class="fas fa-user"></i>
+
+                    Profile
+
+                </a>
+
+            </div>
+
+
+            <!-- Search Box (when logged in) -->
+
+            <form class="search-box"
+                  th:action="@{/search}"
+                  method="get"
+                  th:if="${session.user != null}">
+
+                <div class="search-input-wrapper">
+
+                    <input type="text"
+                           name="keyword"
+                           placeholder="Search products..."
+                           required>
+
+                    <i class="fas fa-magnifying-glass search-icon"></i>
+
+                </div>
+
+
+                <button type="submit">
+
+                    <i class="fas fa-search"></i>
+
+                    Search
+
+                </button>
+
+            </form>
+
+
+            <!-- Authentication Links -->
+
+            <div class="auth-links">
+
+                <!-- When user is NOT logged in -->
+
+                <a th:href="@{/login}"
+                   class="btn-login"
+                   th:if="${session.user == null}">
+
+                    <i class="fas fa-sign-in-alt"></i>
+
+                    Login
+
+                </a>
+
+
+                <!-- When user IS logged in -->
+
+                <span class="user-name"
+                      th:if="${session.user != null}">
+
+                    <i class="fas fa-user-circle"></i>
+
+                    <span th:text="${session.user.username}">
+                        User
+                    </span>
+
+                </span>
+
+
+                <a th:href="@{/logout}"
+                   class="btn-logout"
+                   th:if="${session.user != null}">
+
+                    <i class="fas fa-sign-out-alt"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</div>
 
 </body>
 </html>

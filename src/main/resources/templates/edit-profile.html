@@ -291,7 +291,7 @@
 
     /* ========== PROFILE CARD ========== */
     .profile-card {
-      max-width: 620px;
+      max-width: 640px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(24px);
@@ -414,8 +414,10 @@
     }
 
     .input-group-custom:nth-of-type(1) { animation-delay: 0.6s; }
-    .input-group-custom:nth-of-type(2) { animation-delay: 0.7s; }
-    .input-group-custom:nth-of-type(3) { animation-delay: 0.8s; }
+    .input-group-custom:nth-of-type(2) { animation-delay: 0.68s; }
+    .input-group-custom:nth-of-type(3) { animation-delay: 0.76s; }
+    .input-group-custom:nth-of-type(4) { animation-delay: 0.84s; }
+    .input-group-custom:nth-of-type(5) { animation-delay: 0.92s; }
 
     .input-group-custom .form-control {
       width: 100%;
@@ -457,9 +459,75 @@
       pointer-events: none;
     }
 
+    /* adjust icon position when a label is above */
+    .input-group-custom:has(.form-label) .input-icon {
+      top: calc(50% + 14px);
+    }
+
     .input-group-custom .form-control:focus ~ .input-icon {
       color: var(--violet-vibrant);
       transform: translateY(-50%) scale(1.1);
+    }
+
+    /* ========== FILE INPUT ========== */
+    .input-group-custom input[type="file"] {
+      padding-left: 3.2rem;
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--gray-soft);
+    }
+
+    .input-group-custom input[type="file"]::file-selector-button {
+      background: var(--gradient-btn);
+      color: var(--white);
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.82rem;
+      margin-right: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .input-group-custom input[type="file"]::file-selector-button:hover {
+      background: var(--gradient-btn-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -6px rgba(156, 110, 255, 0.5);
+    }
+
+    /* ========== CURRENT PROFILE PICTURE ========== */
+    .current-picture {
+      text-align: center;
+      margin-bottom: 1.6rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.88s;
+    }
+
+    .current-picture .form-label {
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .current-picture img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--white);
+      box-shadow: 0 12px 32px -10px rgba(124, 77, 255, 0.3);
+      transition: var(--transition);
+    }
+
+    .current-picture img:hover {
+      transform: scale(1.06) rotate(-4deg);
+      box-shadow: 0 20px 45px -14px rgba(156, 110, 255, 0.5);
+      border-color: var(--violet-vibrant);
     }
 
     /* ========== BUTTONS ========== */
@@ -599,7 +667,7 @@
       position: relative;
       z-index: 1;
       animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-      animation-delay: 0.9s;
+      animation-delay: 1s;
     }
 
     /* ========== FOOTER ========== */
@@ -676,90 +744,37 @@
 
     /* ========== RESPONSIVE ========== */
     @media (max-width: 991px) {
-      .profile-section {
-        padding: 2.5rem 0 4rem;
-      }
-
-      .profile-card {
-        padding: 2.5rem 2.2rem;
-      }
-
-      .page-title {
-        font-size: 2.3rem;
-      }
+      .profile-section { padding: 2.5rem 0 4rem; }
+      .profile-card { padding: 2.5rem 2.2rem; }
+      .page-title { font-size: 2.3rem; }
     }
 
     @media (max-width: 768px) {
-      .navbar-brand {
-        font-size: 1.5rem;
-      }
-
-      .navbar-brand i {
-        font-size: 1.5rem;
-      }
-
-      .profile-section {
-        padding: 2rem 0.8rem 3rem;
-      }
-
-      .profile-card {
-        padding: 2rem 1.5rem;
-        border-radius: var(--radius-lg);
-      }
-
-      .page-title {
-        font-size: 1.9rem;
-      }
-
-      .page-subtitle {
-        font-size: 0.95rem;
-      }
-
-      .profile-icon {
-        width: 84px;
-        height: 84px;
-        font-size: 2rem;
-      }
-
+      .navbar-brand { font-size: 1.5rem; }
+      .navbar-brand i { font-size: 1.5rem; }
+      .profile-section { padding: 2rem 0.8rem 3rem; }
+      .profile-card { padding: 2rem 1.5rem; border-radius: var(--radius-lg); }
+      .page-title { font-size: 1.9rem; }
+      .page-subtitle { font-size: 0.95rem; }
+      .profile-icon { width: 84px; height: 84px; font-size: 2rem; }
       .input-group-custom .form-control {
         padding: 0.9rem 0.9rem 0.9rem 2.9rem;
         height: 54px;
         font-size: 0.9rem;
       }
-
-      .input-group-custom .input-icon {
-        left: 1rem;
-        font-size: 1rem;
-      }
-
-      .btn-update,
-      .btn-back {
-        width: 100%;
-        padding: 0.9rem 1.5rem;
-        font-size: 0.92rem;
-      }
-
-      .user-name {
-        margin: 0.5rem 0;
-        justify-content: center;
-      }
-
-      body::before,
-      body::after {
-        filter: blur(60px);
-        opacity: 0.35;
-      }
+      .input-group-custom .input-icon { left: 1rem; font-size: 1rem; }
+      .input-group-custom:has(.form-label) .input-icon { top: calc(50% + 12px); }
+      .btn-update, .btn-back { width: 100%; padding: 0.9rem 1.5rem; font-size: 0.92rem; }
+      .user-name { margin: 0.5rem 0; justify-content: center; }
+      body::before, body::after { filter: blur(60px); opacity: 0.35; }
     }
 
     @media (max-width: 400px) {
-      .page-title {
-        font-size: 1.6rem;
-      }
-
-      .profile-icon {
-        width: 76px;
-        height: 76px;
-        font-size: 1.8rem;
+      .page-title { font-size: 1.6rem; }
+      .profile-icon { width: 76px; height: 76px; font-size: 1.8rem; }
+      .input-group-custom input[type="file"]::file-selector-button {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
       }
     }
 
@@ -776,7 +791,8 @@
     .btn-update:focus-visible,
     .btn-back:focus-visible,
     .logout-btn:focus-visible,
-    .social-icons a:focus-visible {
+    .social-icons a:focus-visible,
+    .form-control:focus-visible {
       outline: 3px solid var(--violet-vibrant);
       outline-offset: 3px;
     }
@@ -894,11 +910,16 @@
         <i class="fas fa-user-pen"></i>
       </div>
 
-      <form th:action="@{/update-profile}" method="post">
+    <form th:action="@{/update-profile}"
+      method="post"
+      enctype="multipart/form-data">
 
         <!-- Username -->
         <div class="input-group-custom">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">
+            Username
+          </label>
+
           <input
             type="text"
             id="username"
@@ -907,12 +928,64 @@
             th:value="${user.username}"
             placeholder="Enter username"
             required>
+
           <i class="fas fa-user input-icon"></i>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="input-group-custom">
+          <label for="phone" class="form-label">
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="form-control"
+            th:value="${user.phone}"
+            placeholder="Enter phone number"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            required>
+
+          <i class="fas fa-phone input-icon"></i>
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="input-group-custom">
+          <label for="profileImage" class="form-label">
+            Profile Picture
+          </label>
+
+          <input
+            type="file"
+            id="profileImage"
+            name="profileImage"
+            class="form-control"
+            accept="image/png,image/jpeg,image/jpg">
+
+          <i class="fas fa-image input-icon"></i>
+        </div>
+
+        <!-- Current Profile Picture -->
+        <div class="current-picture"
+             th:if="${user.profileImage != null}">
+
+          <p class="form-label">Current Profile Picture</p>
+
+          <img th:if="${user.profileImage != null}"
+     th:src="${user.profileImage}"
+     alt="Current Profile Picture"
+     class="img-fluid">
         </div>
 
         <!-- Password -->
         <div class="input-group-custom">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">
+            Password
+          </label>
+
           <input
             type="password"
             id="password"
@@ -921,12 +994,16 @@
             th:value="${user.password}"
             placeholder="Enter password"
             required>
+
           <i class="fas fa-lock input-icon"></i>
         </div>
 
         <!-- Confirm Password -->
         <div class="input-group-custom">
-          <label for="confirmpassword" class="form-label">Confirm Password</label>
+          <label for="confirmpassword" class="form-label">
+            Confirm Password
+          </label>
+
           <input
             type="password"
             id="confirmpassword"
@@ -935,11 +1012,13 @@
             th:value="${user.confirmpassword}"
             placeholder="Confirm password"
             required>
+
           <i class="fas fa-lock input-icon"></i>
         </div>
 
         <!-- Buttons -->
         <div class="button-group">
+
           <button type="submit" class="btn-update">
             <i class="fas fa-check"></i>
             Update Profile
@@ -949,6 +1028,7 @@
             <i class="fas fa-arrow-left"></i>
             Back to Profile
           </a>
+
         </div>
 
       </form>
